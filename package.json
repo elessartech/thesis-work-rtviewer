@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cornerstonejs/calculate-suv": "^1.1.0",
     "@cornerstonejs/core": "^1.66.2",
     "@cornerstonejs/dicom-image-loader": "^1.66.2",
     "@cornerstonejs/streaming-image-volume-loader": "^1.66.2",
     "@cornerstonejs/tools": "^1.66.2",
+    "dcmjs": "^0.30.3",
     "dicom-parser": "^1.8.21",
+    "dicomweb-client": "^0.10.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
