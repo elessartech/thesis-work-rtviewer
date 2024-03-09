@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cornerstonejs/core": "^1.66.2",
+    "@cornerstonejs/dicom-image-loader": "^1.66.2",
+    "@cornerstonejs/streaming-image-volume-loader": "^1.66.2",
+    "@cornerstonejs/tools": "^1.66.2",
+    "dicom-parser": "^1.8.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
