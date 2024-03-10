@@ -20,10 +20,12 @@ import {
     segmentationId,
     viewportId3,
     toolGroupId2,
+    synchronizerId,
 } from '../constants'
 import * as cornerstoneTools from '@cornerstonejs/tools'
 import setCtTransferFunctionForVolumeActor from '../helpers/metadata/setCtTransferFunctionForVolumeActor'
 import addManipulationBindings from '../helpers/metadata/addManipulationBindings'
+import { CrosshairsTool } from '@cornerstonejs/tools'
 
 const {
     addTool,
@@ -39,7 +41,44 @@ const {
     CircleROITool,
     PlanarFreehandContourSegmentationTool,
     SegmentSelectTool,
+    synchronizers
 } = cornerstoneTools
+
+const { createSlabThicknessSynchronizer } = synchronizers;
+
+const viewportReferenceLineControllable = [
+    axialViewportId,
+    sagitalViewportId,
+    coronalViewportId,
+];
+
+const viewportColors = {
+    [axialViewportId]: 'rgb(200, 0, 0)',
+    [sagitalViewportId]: 'rgb(200, 200, 0)',
+    [coronalViewportId]: 'rgb(0, 200, 0)',
+};
+
+
+function getReferenceLineColor(viewportId) {
+    return viewportColors[viewportId];
+  }
+  
+  function getReferenceLineControllable(viewportId) {
+    const index = viewportReferenceLineControllable.indexOf(viewportId);
+    return index !== -1;
+  }
+  
+  function getReferenceLineDraggableRotatable(viewportId) {
+    const index = viewportReferenceLineControllable.indexOf(viewportId);
+    return index !== -1;
+  }
+  
+  function getReferenceLineSlabThicknessControlsOn(viewportId) {
+    const index =
+        viewportReferenceLineControllable.indexOf(viewportId);
+    return index !== -1;
+  }
+
 
 const Main = () => {
     const threeDCanvasWrapRef = useRef<HTMLDivElement | null>(null)
@@ -50,6 +89,7 @@ const Main = () => {
     const [renderingEngine, setRenderingEngine] =
         useState<IRenderingEngine | null>(null)
     const [activeTool, setActiveTool] = useState<string | null>(null)
+    const [synchronizer, setSyncronizer] = useState<any | null>(null)
 
     useEffect(() => {
         if (ctImageIds.length === 0) {
@@ -57,6 +97,7 @@ const Main = () => {
         } else {
             if (!renderingEngine) {
                 setRenderingEngine(new RenderingEngine(renderingEngineId))
+                setSyncronizer(createSlabThicknessSynchronizer(synchronizerId))
                 addTools()
             }
         }
@@ -81,12 +122,25 @@ const Main = () => {
         }
     }, [activeTool])
 
+    const setUpSynchronizers = () => {
+        [axialViewportId, sagitalViewportId, coronalViewportId].forEach((viewportId) => {
+          synchronizer.add({
+            renderingEngineId,
+            viewportId,
+          });
+        });
+        // Normally this would be left on, but here we are starting the demo in the
+        // default state, which is to not have a synchronizer enabled.
+        synchronizer.setEnabled(true);
+    }
+
     const addTools = () => {
         ToolGroupManager.createToolGroup(toolGroupId)
         ToolGroupManager.createToolGroup(toolGroupId2)
         addTool(PlanarFreehandContourSegmentationTool)
         addTool(SegmentationDisplayTool)
         addTool(SegmentSelectTool)
+        addTool(CrosshairsTool);
     }
 
     const setImage = async () => {
@@ -122,7 +176,7 @@ const Main = () => {
             ],
         })
 
-        toolGroup.setToolActive(
+        /*toolGroup.setToolActive(
             PlanarFreehandContourSegmentationTool.toolName,
             {
                 bindings: [
@@ -131,7 +185,7 @@ const Main = () => {
                     },
                 ],
             }
-        )
+        )*/
 
         const axialViewportElement = axialCanvasWrapRef.current
         const sagitalViewportElement = sagitalCanvasWrapRef.current
@@ -226,6 +280,26 @@ const Main = () => {
                 },
             },
         })
+
+        const isMobile = window.matchMedia('(any-pointer:coarse)').matches;
+
+        toolGroup.addTool(CrosshairsTool.toolName, {
+          getReferenceLineColor,
+          getReferenceLineControllable,
+          getReferenceLineDraggableRotatable,
+          getReferenceLineSlabThicknessControlsOn,
+          mobile: {
+            enabled: isMobile,
+            opacity: 0.8,
+            handleRadius: 9,
+          },
+        });
+      
+        toolGroup.setToolActive(CrosshairsTool.toolName, {
+          bindings: [{ mouseButton: csToolsEnums.MouseBindings.Primary }],
+        });
+      
+        setUpSynchronizers()
 
         renderingEngine.renderViewports([
             axialViewportId,
