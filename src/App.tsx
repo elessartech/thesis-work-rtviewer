@@ -8,7 +8,6 @@ import { volumeLoader } from '@cornerstonejs/core'
 import {
     cornerstoneStreamingImageVolumeLoader,
     cornerstoneStreamingDynamicImageVolumeLoader,
-    // @ts-ignore
 } from '@cornerstonejs/streaming-image-volume-loader'
 import ptScallingMetaProvider from './ptScallingMetaProvider'
 
@@ -16,7 +15,7 @@ function App() {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         if (loading) {
-            ;(async () => initCornerstone())()
+            (async () => initCornerstone())()
         }
     }, [loading])
     const initCornerstone = async () => {

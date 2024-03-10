@@ -6,7 +6,7 @@ import {
     volumeLoader,
     CONSTANTS,
     utilities,
-    Types
+    Types,
 } from '@cornerstonejs/core'
 import { ViewportType } from '@cornerstonejs/core/dist/esm/enums'
 import { IRenderingEngine } from '@cornerstonejs/core/dist/esm/types'
@@ -23,10 +23,8 @@ import {
     viewportId3,
     toolGroupId2,
 } from '../constants'
-import * as cornerstoneTools from '@cornerstonejs/tools';
-import {
-    MouseBindings,
-} from '@cornerstonejs/tools/dist/esm/enums'
+import * as cornerstoneTools from '@cornerstonejs/tools'
+import { MouseBindings } from '@cornerstonejs/tools/dist/esm/enums'
 import { createStackImageSynchronizer } from '@cornerstonejs/tools/dist/esm/synchronizers'
 import setCtTransferFunctionForVolumeActor from '../helpers/metadata/setCtTransferFunctionForVolumeActor'
 import addManipulationBindings from '../helpers/metadata/addManipulationBindings'
@@ -45,8 +43,8 @@ const {
     CircleROITool,
     SynchronizerManager,
     PlanarFreehandContourSegmentationTool,
-    SegmentSelectTool
-  } = cornerstoneTools;
+    SegmentSelectTool,
+} = cornerstoneTools
 
 const Main = () => {
     const threeDCanvasWrapRef = useRef<HTMLDivElement | null>(null)
@@ -57,10 +55,10 @@ const Main = () => {
     const [renderingEngine, setRenderingEngine] =
         useState<IRenderingEngine | null>(null)
     const [activeTool, setActiveTool] = useState<string | null>(null)
-    
+
     useEffect(() => {
         if (ctImageIds.length === 0) {
-            ;(async () => setCtImageIds(await fetchImageIds()))()
+            (async () => setCtImageIds(await fetchImageIds()))()
         } else {
             if (!renderingEngine) {
                 setRenderingEngine(new RenderingEngine(renderingEngineId))
@@ -71,48 +69,48 @@ const Main = () => {
 
     useEffect(() => {
         if (renderingEngine) {
-            ;(async () => await setImage())()
+            (async () => await setImage())()
         }
     }, [renderingEngine])
 
     useEffect(() => {
         if (activeTool) {
-            const toolGroup = ToolGroupManager.getToolGroup(toolGroupId);
-            const currActivePrimaryBtnTool = toolGroup.getActivePrimaryMouseButtonTool();
-            if (currActivePrimaryBtnTool) toolGroup.setToolDisabled(currActivePrimaryBtnTool);
+            const toolGroup = ToolGroupManager.getToolGroup(toolGroupId)
+            const currActivePrimaryBtnTool =
+                toolGroup.getActivePrimaryMouseButtonTool()
+            if (currActivePrimaryBtnTool)
+                toolGroup.setToolDisabled(currActivePrimaryBtnTool)
             toolGroup.setToolActive(activeTool, {
                 bindings: [{ mouseButton: MouseBindings.Primary }],
-            });
+            })
         }
     }, [activeTool])
 
     const addTools = () => {
         ToolGroupManager.createToolGroup(toolGroupId)
-        ToolGroupManager.createToolGroup(toolGroupId2);
+        ToolGroupManager.createToolGroup(toolGroupId2)
         addTool(PlanarFreehandContourSegmentationTool)
-        addTool(SegmentationDisplayTool);
-        addTool(SegmentSelectTool);
+        addTool(SegmentationDisplayTool)
+        addTool(SegmentSelectTool)
     }
 
     const setImage = async () => {
         const toolGroup = ToolGroupManager.getToolGroup(toolGroupId)
         const toolGroup2 = ToolGroupManager.getToolGroup(toolGroupId2)
-        toolGroup.addTool(PlanarFreehandContourSegmentationTool.toolName);
+        toolGroup.addTool(PlanarFreehandContourSegmentationTool.toolName)
         toolGroup.addTool(WindowLevelTool.toolName)
 
-        addManipulationBindings(toolGroup);
-        addManipulationBindings(toolGroup2, { is3DViewport: true });
+        addManipulationBindings(toolGroup)
+        addManipulationBindings(toolGroup2, { is3DViewport: true })
 
+        toolGroup.addTool(SegmentationDisplayTool.toolName)
+        toolGroup.addTool(SegmentSelectTool.toolName)
+        toolGroup2.addTool(SegmentationDisplayTool.toolName)
 
-        toolGroup.addTool(SegmentationDisplayTool.toolName);
-        toolGroup.addTool(SegmentSelectTool.toolName);
-        toolGroup2.addTool(SegmentationDisplayTool.toolName);
+        toolGroup.setToolEnabled(SegmentationDisplayTool.toolName)
+        toolGroup.setToolActive(SegmentSelectTool.toolName)
 
-
-        toolGroup.setToolEnabled(SegmentationDisplayTool.toolName);
-        toolGroup.setToolActive(SegmentSelectTool.toolName);
-
-        toolGroup2.setToolEnabled(SegmentationDisplayTool.toolName);
+        toolGroup2.setToolEnabled(SegmentationDisplayTool.toolName)
 
         toolGroup.setToolActive(WindowLevelTool.toolName, {
             bindings: [
@@ -129,15 +127,16 @@ const Main = () => {
             ],
         })
 
-
-        toolGroup.setToolActive(PlanarFreehandContourSegmentationTool.toolName, {
-            bindings: [
-              {
-                mouseButton: MouseBindings.Primary,
-              },
-            ],
-          });
-
+        toolGroup.setToolActive(
+            PlanarFreehandContourSegmentationTool.toolName,
+            {
+                bindings: [
+                    {
+                        mouseButton: MouseBindings.Primary,
+                    },
+                ],
+            }
+        )
 
         createStackImageSynchronizer(stackImageSyncronizerId)
         const axialViewportElement = axialCanvasWrapRef.current
@@ -174,16 +173,16 @@ const Main = () => {
                 type: ViewportType.VOLUME_3D,
                 element: threeDViewportElement,
                 defaultOptions: {
-                  background: CONSTANTS.BACKGROUND_COLORS.slicer3D,
+                    background: CONSTANTS.BACKGROUND_COLORS.slicer3D,
                 },
-              },
+            },
         ]
         const volume = await volumeLoader.createAndCacheVolume(volumeId, {
             imageIds: ctImageIds,
         })
         await volumeLoader.createAndCacheDerivedVolume(volumeId, {
             volumeId: segmentationId,
-          });
+        })
         const synchronizer = SynchronizerManager.getSynchronizer(
             stackImageSyncronizerId
         )
@@ -192,20 +191,18 @@ const Main = () => {
         }
         await segmentation.addSegmentations([
             {
-              segmentationId,
-              representation: {
-                type: csToolsEnums.SegmentationRepresentations.Contour,
-              },
+                segmentationId,
+                representation: {
+                    type: csToolsEnums.SegmentationRepresentations.Contour,
+                },
             },
-          ]);
-
-          
+        ])
 
         renderingEngine.setViewports(viewportInput)
         toolGroup.addViewport(axialViewportId, renderingEngineId)
         toolGroup.addViewport(sagitalViewportId, renderingEngineId)
         toolGroup.addViewport(coronalViewportId, renderingEngineId)
-        toolGroup2.addViewport(viewportId3, renderingEngineId);
+        toolGroup2.addViewport(viewportId3, renderingEngineId)
         synchronizer.add({ renderingEngineId, viewportId: axialViewportId })
         synchronizer.add({ renderingEngineId, viewportId: sagitalViewportId })
         synchronizer.add({ renderingEngineId, viewportId: coronalViewportId })
@@ -215,38 +212,35 @@ const Main = () => {
             renderingEngine,
             [{ volumeId, callback: setCtTransferFunctionForVolumeActor }],
             [axialViewportId, sagitalViewportId, coronalViewportId, viewportId3]
-          );
+        )
 
-
-        const volumeActor = renderingEngine.getViewport(viewportId3).getDefaultActor()
-            .actor as Types.VolumeActor;
+        const volumeActor = renderingEngine
+            .getViewport(viewportId3)
+            .getDefaultActor().actor as Types.VolumeActor
         utilities.applyPreset(
             volumeActor,
-            CONSTANTS.VIEWPORT_PRESETS.find((preset) => preset.name === 'CT-Bone')
-        );
+            CONSTANTS.VIEWPORT_PRESETS.find(
+                (preset) => preset.name === 'CT-Bone'
+            )
+        )
 
-
-          await segmentation.addSegmentationRepresentations(
-            toolGroupId,
-            [
-              {
+        await segmentation.addSegmentationRepresentations(toolGroupId, [
+            {
                 segmentationId,
                 type: csToolsEnums.SegmentationRepresentations.Contour,
-              },
-            ]
-          );
+            },
+        ])
 
-
-          segmentation.config.setToolGroupSpecificConfig(toolGroupId, {
+        segmentation.config.setToolGroupSpecificConfig(toolGroupId, {
             renderInactiveSegmentations: true,
             representations: {
-              CONTOUR: {
-                outlineWidthActive: 5,
-                outlineDashActive: '10, 10',
-              },
+                CONTOUR: {
+                    outlineWidthActive: 5,
+                    outlineDashActive: '10, 10',
+                },
             },
-          });
-        
+        })
+
         renderingEngine.renderViewports([
             axialViewportId,
             sagitalViewportId,
@@ -266,9 +260,7 @@ const Main = () => {
                         Length
                     </button>
                     <button
-                        onClick={() =>
-                            setActiveTool(CircleROITool.toolName)
-                        }
+                        onClick={() => setActiveTool(CircleROITool.toolName)}
                     >
                         Circle
                     </button>
