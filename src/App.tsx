@@ -15,7 +15,7 @@ function App() {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         if (loading) {
-            (async () => initCornerstone())()
+            ;(async () => initCornerstone())()
         }
     }, [loading])
     const initCornerstone = async () => {

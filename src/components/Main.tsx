@@ -8,7 +8,6 @@ import {
     utilities,
     Types,
 } from '@cornerstonejs/core'
-import { ViewportType } from '@cornerstonejs/core/dist/esm/enums'
 import { IRenderingEngine } from '@cornerstonejs/core/dist/esm/types'
 import { fetchImageIds } from '../helpers/data/fetchImageIds'
 import {
@@ -19,13 +18,10 @@ import {
     volumeId,
     toolGroupId,
     segmentationId,
-    stackImageSyncronizerId,
     viewportId3,
     toolGroupId2,
 } from '../constants'
 import * as cornerstoneTools from '@cornerstonejs/tools'
-import { MouseBindings } from '@cornerstonejs/tools/dist/esm/enums'
-import { createStackImageSynchronizer } from '@cornerstonejs/tools/dist/esm/synchronizers'
 import setCtTransferFunctionForVolumeActor from '../helpers/metadata/setCtTransferFunctionForVolumeActor'
 import addManipulationBindings from '../helpers/metadata/addManipulationBindings'
 
@@ -41,7 +37,6 @@ const {
     LengthTool,
     AngleTool,
     CircleROITool,
-    SynchronizerManager,
     PlanarFreehandContourSegmentationTool,
     SegmentSelectTool,
 } = cornerstoneTools
@@ -58,7 +53,7 @@ const Main = () => {
 
     useEffect(() => {
         if (ctImageIds.length === 0) {
-            (async () => setCtImageIds(await fetchImageIds()))()
+            ;(async () => setCtImageIds(await fetchImageIds()))()
         } else {
             if (!renderingEngine) {
                 setRenderingEngine(new RenderingEngine(renderingEngineId))
@@ -69,7 +64,7 @@ const Main = () => {
 
     useEffect(() => {
         if (renderingEngine) {
-            (async () => await setImage())()
+            ;(async () => await setImage())()
         }
     }, [renderingEngine])
 
@@ -81,7 +76,7 @@ const Main = () => {
             if (currActivePrimaryBtnTool)
                 toolGroup.setToolDisabled(currActivePrimaryBtnTool)
             toolGroup.setToolActive(activeTool, {
-                bindings: [{ mouseButton: MouseBindings.Primary }],
+                bindings: [{ mouseButton: csToolsEnums.MouseBindings.Primary }],
             })
         }
     }, [activeTool])
@@ -115,14 +110,14 @@ const Main = () => {
         toolGroup.setToolActive(WindowLevelTool.toolName, {
             bindings: [
                 {
-                    mouseButton: MouseBindings.Primary, // Left Click
+                    mouseButton: csToolsEnums.MouseBindings.Primary, // Left Click
                 },
             ],
         })
         toolGroup.setToolActive(PanTool.toolName, {
             bindings: [
                 {
-                    mouseButton: MouseBindings.Auxiliary, // Middle Click
+                    mouseButton: csToolsEnums.MouseBindings.Auxiliary, // Middle Click
                 },
             ],
         })
@@ -132,13 +127,12 @@ const Main = () => {
             {
                 bindings: [
                     {
-                        mouseButton: MouseBindings.Primary,
+                        mouseButton: csToolsEnums.MouseBindings.Primary,
                     },
                 ],
             }
         )
 
-        createStackImageSynchronizer(stackImageSyncronizerId)
         const axialViewportElement = axialCanvasWrapRef.current
         const sagitalViewportElement = sagitalCanvasWrapRef.current
         const coronalViewportElement = coronalCanvasWrapRef.current
@@ -146,7 +140,7 @@ const Main = () => {
         const viewportInput = [
             {
                 viewportId: axialViewportId,
-                type: ViewportType.ORTHOGRAPHIC,
+                type: Enums.ViewportType.ORTHOGRAPHIC,
                 element: axialViewportElement,
                 defaultOptions: {
                     orientation: Enums.OrientationAxis.AXIAL,
@@ -154,7 +148,7 @@ const Main = () => {
             },
             {
                 viewportId: sagitalViewportId,
-                type: ViewportType.ORTHOGRAPHIC,
+                type: Enums.ViewportType.ORTHOGRAPHIC,
                 element: sagitalViewportElement,
                 defaultOptions: {
                     orientation: Enums.OrientationAxis.SAGITTAL,
@@ -162,7 +156,7 @@ const Main = () => {
             },
             {
                 viewportId: coronalViewportId,
-                type: ViewportType.ORTHOGRAPHIC,
+                type: Enums.ViewportType.ORTHOGRAPHIC,
                 element: coronalViewportElement,
                 defaultOptions: {
                     orientation: Enums.OrientationAxis.CORONAL,
@@ -170,7 +164,7 @@ const Main = () => {
             },
             {
                 viewportId: viewportId3,
-                type: ViewportType.VOLUME_3D,
+                type: Enums.ViewportType.VOLUME_3D,
                 element: threeDViewportElement,
                 defaultOptions: {
                     background: CONSTANTS.BACKGROUND_COLORS.slicer3D,
@@ -183,12 +177,7 @@ const Main = () => {
         await volumeLoader.createAndCacheDerivedVolume(volumeId, {
             volumeId: segmentationId,
         })
-        const synchronizer = SynchronizerManager.getSynchronizer(
-            stackImageSyncronizerId
-        )
-        if (!synchronizer) {
-            return
-        }
+
         await segmentation.addSegmentations([
             {
                 segmentationId,
@@ -203,9 +192,6 @@ const Main = () => {
         toolGroup.addViewport(sagitalViewportId, renderingEngineId)
         toolGroup.addViewport(coronalViewportId, renderingEngineId)
         toolGroup2.addViewport(viewportId3, renderingEngineId)
-        synchronizer.add({ renderingEngineId, viewportId: axialViewportId })
-        synchronizer.add({ renderingEngineId, viewportId: sagitalViewportId })
-        synchronizer.add({ renderingEngineId, viewportId: coronalViewportId })
         volume.load()
 
         await setVolumesForViewports(
