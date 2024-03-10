@@ -10,6 +10,7 @@ const volumeLoaderScheme = 'cornerstoneStreamingImageVolume'
 const volumeName = 'CT_VOLUME_ID'
 export const volumeId = `${volumeLoaderScheme}:${volumeName}`
 export const toolGroupId = 'CT_TOOLGROUP'
+export const toolGroupId2 = 'CT_TOOLGROUP2'
 export const segmentationId = 'MY_SEGMENTATION_ID'
 export const cameraSynchronizerId = 'CAMERA_SYNCHRONIZER_ID'
 export const voiSynchronizerId = 'VOI_SYNCHRONIZER_ID'

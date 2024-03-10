@@ -1,5 +1,5 @@
 import * as cornerstoneTools from '@cornerstonejs/tools';
-import type { Types } from '@cornerstonejs/tools';
+import { AngleTool, BidirectionalTool, CircleROITool, EllipticalROITool, ProbeTool, RectangleROITool, type Types } from '@cornerstonejs/tools';
 
 const {
   LengthTool,
@@ -54,6 +54,12 @@ export default function addManipulationBindings(
     cornerstoneTools.addTool(TrackballRotateTool);
     cornerstoneTools.addTool(LengthTool);
     cornerstoneTools.addTool(StackScrollTool);
+    cornerstoneTools.addTool(ProbeTool)
+    cornerstoneTools.addTool(AngleTool)
+    cornerstoneTools.addTool(CircleROITool)
+    cornerstoneTools.addTool(BidirectionalTool)
+    cornerstoneTools.addTool(RectangleROITool)
+    cornerstoneTools.addTool(EllipticalROITool)
   }
 
   registered = true;
@@ -67,6 +73,10 @@ export default function addManipulationBindings(
   }
   toolGroup.addTool(LengthTool.toolName);
   toolGroup.addTool(StackScrollTool.toolName);
+
+  toolGroup.addTool(AngleTool.toolName);
+  toolGroup.addTool(CircleROITool.toolName);
+  toolGroup.addTool(RectangleROITool.toolName);
 
   toolGroup.setToolActive(PanTool.toolName, {
     bindings: [
