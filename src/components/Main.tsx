@@ -41,7 +41,8 @@ const {
     CircleROITool,
     PlanarFreehandContourSegmentationTool,
     SegmentSelectTool,
-    synchronizers
+    synchronizers,
+    BrushTool
 } = cornerstoneTools
 
 const { createSlabThicknessSynchronizer } = synchronizers;
@@ -129,8 +130,6 @@ const Main = () => {
             viewportId,
           });
         });
-        // Normally this would be left on, but here we are starting the demo in the
-        // default state, which is to not have a synchronizer enabled.
         synchronizer.setEnabled(true);
     }
 
@@ -141,6 +140,8 @@ const Main = () => {
         addTool(SegmentationDisplayTool)
         addTool(SegmentSelectTool)
         addTool(CrosshairsTool);
+        addTool(WindowLevelTool);
+        addTool(BrushTool);
     }
 
     const setImage = async () => {
@@ -148,6 +149,7 @@ const Main = () => {
         const toolGroup2 = ToolGroupManager.getToolGroup(toolGroupId2)
         toolGroup.addTool(PlanarFreehandContourSegmentationTool.toolName)
         toolGroup.addTool(WindowLevelTool.toolName)
+        toolGroup.addTool(BrushTool.toolName) // needful to set up the brush further
 
         addManipulationBindings(toolGroup)
         addManipulationBindings(toolGroup2, { is3DViewport: true })
@@ -165,6 +167,7 @@ const Main = () => {
             bindings: [
                 {
                     mouseButton: csToolsEnums.MouseBindings.Primary, // Left Click
+                    modifierKey: csToolsEnums.KeyboardBindings.Ctrl,
                 },
             ],
         })
@@ -175,17 +178,6 @@ const Main = () => {
                 },
             ],
         })
-
-        /*toolGroup.setToolActive(
-            PlanarFreehandContourSegmentationTool.toolName,
-            {
-                bindings: [
-                    {
-                        mouseButton: csToolsEnums.MouseBindings.Primary,
-                    },
-                ],
-            }
-        )*/
 
         const axialViewportElement = axialCanvasWrapRef.current
         const sagitalViewportElement = sagitalCanvasWrapRef.current
@@ -328,6 +320,30 @@ const Main = () => {
                         onClick={() => setActiveTool(RectangleROITool.toolName)}
                     >
                         Rectangle
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTool(CrosshairsTool.toolName)}
+                    >
+                        Crosshair
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTool(PlanarFreehandContourSegmentationTool.toolName)}
+                    >
+                        Segmentation Planar Freehand Contour Tool
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTool(WindowLevelTool.toolName)}
+                    >
+                        Window Level Tool
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTool(BrushTool.toolName)}
+                    >
+                        Brush tool
                     </button>
                 </div>
             </div>
