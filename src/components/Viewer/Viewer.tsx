@@ -1,14 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
-import { RenderingEngine } from '@cornerstonejs/core'
+import { useState, useRef } from 'react'
 import { IRenderingEngine } from '@cornerstonejs/core/dist/esm/types'
-import { fetchImageIds } from '../../helpers/fetchImageIds'
 import { FaAdjust, FaAngleDown, FaRegCircle } from 'react-icons/fa'
-import {
-    renderingEngineId,
-    toolGroupId,
-    toolGroupId2,
-    synchronizerId,
-} from '../../constants'
 import * as cornerstoneTools from '@cornerstonejs/tools'
 import { CrosshairsTool } from '@cornerstonejs/tools'
 import useSetUpViewports from '../../hooks/useSetUpViewports'
@@ -18,22 +10,19 @@ import { MdOutlineRectangle } from 'react-icons/md'
 import { PiLineSegmentsBold } from 'react-icons/pi'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
 import { IoIosBrush } from 'react-icons/io'
-
+import useTogglePetModality from '../../hooks/useTogglePetModality'
+import useSelectActiveTool from '../../hooks/useSelectActiveTool'
+import useRetrieveImageIds from '../../hooks/useRetrieveImageIds'
 const {
-    ToolGroupManager,
-    Enums: csToolsEnums,
     WindowLevelTool,
     RectangleROITool,
     LengthTool,
     AngleTool,
     CircleROITool,
     PlanarFreehandContourSegmentationTool,
-    synchronizers,
     BrushTool,
     Synchronizer,
 } = cornerstoneTools
-
-const { createSlabThicknessSynchronizer } = synchronizers
 
 const Viewer = () => {
     const theme = useTheme()
@@ -42,39 +31,26 @@ const Viewer = () => {
     const coronalCanvasWrapRef = useRef<HTMLDivElement | null>(null)
     const axialCanvasWrapRef = useRef<HTMLDivElement | null>(null)
     const [ctImageIds, setCtImageIds] = useState<string[]>([])
+    const [ptImageIds, setPtImageIds] = useState<string[]>([])
     const [renderingEngine, setRenderingEngine] =
         useState<IRenderingEngine | null>(null)
     const [activeTool, setActiveTool] = useState<string | null>(null)
     const [synchronizer, setSyncronizer] = useState<typeof Synchronizer | null>(
         null
     )
+    const [isFused, setIsFused] = useState<boolean>(false)
 
-    useEffect(() => {
-        if (ctImageIds.length === 0) {
-            (async () => setCtImageIds(await fetchImageIds()))()
-        } else {
-            if (!renderingEngine) {
-                setRenderingEngine(new RenderingEngine(renderingEngineId))
-                // @ts-expect-error - Synchronizer is badly typed
-                setSyncronizer(createSlabThicknessSynchronizer(synchronizerId))
-                ToolGroupManager.createToolGroup(toolGroupId)
-                ToolGroupManager.createToolGroup(toolGroupId2)
-            }
-        }
-    }, [ctImageIds, renderingEngine])
+    useRetrieveImageIds({
+        renderingEngine,
+        ctImageIds,
+        ptImageIds,
+        setRenderingEngine,
+        setCtImageIds,
+        setPtImageIds,
+        setSyncronizer,
+    })
 
-    useEffect(() => {
-        if (activeTool) {
-            const toolGroup = ToolGroupManager.getToolGroup(toolGroupId)
-            const currActivePrimaryBtnTool =
-                toolGroup.getActivePrimaryMouseButtonTool()
-            if (currActivePrimaryBtnTool)
-                toolGroup.setToolDisabled(currActivePrimaryBtnTool)
-            toolGroup.setToolActive(activeTool, {
-                bindings: [{ mouseButton: csToolsEnums.MouseBindings.Primary }],
-            })
-        }
-    }, [activeTool])
+    useSelectActiveTool({ activeTool })
 
     useSetUpViewports({
         renderingEngine,
@@ -85,11 +61,26 @@ const Viewer = () => {
         threeDCanvasWrapRef,
         ctImageIds,
         setActiveTool,
+        ptImageIds,
     })
+
+    useTogglePetModality({ renderingEngine, isFused })
 
     return (
         <VStack spacing="4" align="center" mb="4" mt="4">
             <HStack spacing="4">
+                <Button
+                    onClick={() => setIsFused(!isFused)}
+                    bg={
+                        isFused
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
+                    }
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
+                >
+                    Toggle PET
+                </Button>
                 <Button
                     leftIcon={<FaAngleDown />}
                     onClick={() => setActiveTool(AngleTool.toolName)}

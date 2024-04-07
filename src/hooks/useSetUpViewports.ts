@@ -17,6 +17,7 @@ import {
     viewportId3,
     toolGroupId2,
     viewportColors,
+    ptVolumeId,
 } from '../constants'
 import * as cornerstoneTools from '@cornerstonejs/tools'
 import setCtTransferFunctionForVolumeActor from '../domain/setCtTransferFunctionForVolumeActor'
@@ -43,6 +44,7 @@ export default function useSetUpViewports({
     threeDCanvasWrapRef,
     ctImageIds,
     setActiveTool,
+    ptImageIds,
 }) {
     const viewportReferenceLineControllable = [
         axialViewportId,
@@ -209,6 +211,11 @@ export default function useSetUpViewports({
             coronalViewportId,
             viewportId3,
         ])
+
+        const ptVolume = await volumeLoader.createAndCacheVolume(ptVolumeId, {
+            imageIds: ptImageIds,
+        })
+        ptVolume.load()
         setActiveTool(CrosshairsTool.toolName)
     }
 
