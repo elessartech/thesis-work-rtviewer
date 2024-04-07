@@ -22,7 +22,7 @@ import * as cornerstoneTools from '@cornerstonejs/tools'
 import setCtTransferFunctionForVolumeActor from '../domain/setCtTransferFunctionForVolumeActor'
 import addManipulationBindings from '../domain/addManipulationBindings'
 import { CrosshairsTool } from '@cornerstonejs/tools'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const {
     SegmentationDisplayTool,
@@ -31,41 +31,47 @@ const {
     segmentation,
     WindowLevelTool,
     PlanarFreehandContourSegmentationTool,
-    BrushTool
+    BrushTool,
 } = cornerstoneTools
 
-
-export default function useSetUpViewports({renderingEngine, synchronizer, axialCanvasWrapRef, sagitalCanvasWrapRef, coronalCanvasWrapRef, threeDCanvasWrapRef, ctImageIds}) {
+export default function useSetUpViewports({
+    renderingEngine,
+    synchronizer,
+    axialCanvasWrapRef,
+    sagitalCanvasWrapRef,
+    coronalCanvasWrapRef,
+    threeDCanvasWrapRef,
+    ctImageIds,
+}) {
     const viewportReferenceLineControllable = [
         axialViewportId,
         sagitalViewportId,
         coronalViewportId,
-    ];
+    ]
 
     useEffect(() => {
         if (renderingEngine) {
-            ;(async () => await setUpViewports())()
+            (async () => await setUpViewports())()
         }
     }, [renderingEngine])
 
     const getReferenceLineColor = (viewportId) => {
-        return viewportColors[viewportId];
-      }
-      
-      const getReferenceLineControllable= (viewportId) => {
-        const index = viewportReferenceLineControllable.indexOf(viewportId);
-        return index !== -1;
+        return viewportColors[viewportId]
     }
-    
-    const getReferenceLineDraggableRotatable= (viewportId) => {
-        const index = viewportReferenceLineControllable.indexOf(viewportId);
-        return index !== -1;
+
+    const getReferenceLineControllable = (viewportId) => {
+        const index = viewportReferenceLineControllable.indexOf(viewportId)
+        return index !== -1
     }
-    
-    const getReferenceLineSlabThicknessControlsOn= (viewportId) => {
-        const index =
-            viewportReferenceLineControllable.indexOf(viewportId);
-        return index !== -1;
+
+    const getReferenceLineDraggableRotatable = (viewportId) => {
+        const index = viewportReferenceLineControllable.indexOf(viewportId)
+        return index !== -1
+    }
+
+    const getReferenceLineSlabThicknessControlsOn = (viewportId) => {
+        const index = viewportReferenceLineControllable.indexOf(viewportId)
+        return index !== -1
     }
 
     const setUpViewports = async () => {
@@ -176,24 +182,24 @@ export default function useSetUpViewports({renderingEngine, synchronizer, axialC
             },
         })
 
-        const isMobile = window.matchMedia('(any-pointer:coarse)').matches;
+        const isMobile = window.matchMedia('(any-pointer:coarse)').matches
 
         toolGroup.addTool(CrosshairsTool.toolName, {
-          getReferenceLineColor,
-          getReferenceLineControllable,
-          getReferenceLineDraggableRotatable,
-          getReferenceLineSlabThicknessControlsOn,
-          mobile: {
-            enabled: isMobile,
-            opacity: 0.8,
-            handleRadius: 9,
-          },
-        });
-      
+            getReferenceLineColor,
+            getReferenceLineControllable,
+            getReferenceLineDraggableRotatable,
+            getReferenceLineSlabThicknessControlsOn,
+            mobile: {
+                enabled: isMobile,
+                opacity: 0.8,
+                handleRadius: 9,
+            },
+        })
+
         toolGroup.setToolActive(CrosshairsTool.toolName, {
-          bindings: [{ mouseButton: csToolsEnums.MouseBindings.Primary }],
-        });
-      
+            bindings: [{ mouseButton: csToolsEnums.MouseBindings.Primary }],
+        })
+
         setUpSynchronizers()
 
         renderingEngine.renderViewports([
@@ -205,12 +211,14 @@ export default function useSetUpViewports({renderingEngine, synchronizer, axialC
     }
 
     const setUpSynchronizers = () => {
-        [axialViewportId, sagitalViewportId, coronalViewportId].forEach((viewportId) => {
-          synchronizer.add({
-            renderingEngineId,
-            viewportId,
-          });
-        });
-        synchronizer.setEnabled(true);
+        [axialViewportId, sagitalViewportId, coronalViewportId].forEach(
+            (viewportId) => {
+                synchronizer.add({
+                    renderingEngineId,
+                    viewportId,
+                })
+            }
+        )
+        synchronizer.setEnabled(true)
     }
 }

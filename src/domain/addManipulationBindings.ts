@@ -77,9 +77,9 @@ export default function addManipulationBindings(
         cornerstoneTools.addTool(PlanarFreehandContourSegmentationTool)
         cornerstoneTools.addTool(SegmentationDisplayTool)
         cornerstoneTools.addTool(SegmentSelectTool)
-        cornerstoneTools.addTool(CrosshairsTool);
-        cornerstoneTools.addTool(WindowLevelTool);
-        cornerstoneTools.addTool(BrushTool);
+        cornerstoneTools.addTool(CrosshairsTool)
+        cornerstoneTools.addTool(WindowLevelTool)
+        cornerstoneTools.addTool(BrushTool)
     }
 
     registered = true

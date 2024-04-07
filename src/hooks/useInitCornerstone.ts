@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import * as cornerstone from '@cornerstonejs/core'
 import * as cornerstoneTools from '@cornerstonejs/tools'
 import cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader'
@@ -8,14 +8,13 @@ import {
     cornerstoneStreamingImageVolumeLoader,
     cornerstoneStreamingDynamicImageVolumeLoader,
 } from '@cornerstonejs/streaming-image-volume-loader'
-import ptScallingMetaProvider from "../domain/ptScallingMetaProvider"
-
+import ptScallingMetaProvider from '../domain/ptScallingMetaProvider'
 
 export default function useInitCornerstone() {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         if (loading) {
-            ;(async () => initCornerstone())()
+            (async () => initCornerstone())()
         }
     }, [loading])
 
@@ -74,7 +73,6 @@ export default function useInitCornerstone() {
     }
 
     return {
-        loading
+        loading,
     }
-
 }

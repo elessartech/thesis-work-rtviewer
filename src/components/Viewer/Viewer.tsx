@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import {
-    RenderingEngine,
-} from '@cornerstonejs/core'
+import { RenderingEngine } from '@cornerstonejs/core'
 import { IRenderingEngine } from '@cornerstonejs/core/dist/esm/types'
 import { fetchImageIds } from '../../helpers/fetchImageIds'
 import {
@@ -24,10 +22,11 @@ const {
     CircleROITool,
     PlanarFreehandContourSegmentationTool,
     synchronizers,
-    BrushTool
+    BrushTool,
+    Synchronizer,
 } = cornerstoneTools
 
-const { createSlabThicknessSynchronizer } = synchronizers;
+const { createSlabThicknessSynchronizer } = synchronizers
 
 const Viewer = () => {
     const threeDCanvasWrapRef = useRef<HTMLDivElement | null>(null)
@@ -38,21 +37,23 @@ const Viewer = () => {
     const [renderingEngine, setRenderingEngine] =
         useState<IRenderingEngine | null>(null)
     const [activeTool, setActiveTool] = useState<string | null>(null)
-    const [synchronizer, setSyncronizer] = useState<any | null>(null)
+    const [synchronizer, setSyncronizer] = useState<typeof Synchronizer | null>(
+        null
+    )
 
     useEffect(() => {
         if (ctImageIds.length === 0) {
-            ;(async () => setCtImageIds(await fetchImageIds()))()
+            (async () => setCtImageIds(await fetchImageIds()))()
         } else {
             if (!renderingEngine) {
                 setRenderingEngine(new RenderingEngine(renderingEngineId))
+                // @ts-expect-error - ToolGroupManager is not typed
                 setSyncronizer(createSlabThicknessSynchronizer(synchronizerId))
                 ToolGroupManager.createToolGroup(toolGroupId)
                 ToolGroupManager.createToolGroup(toolGroupId2)
             }
         }
-    }, [ctImageIds])
-    
+    }, [ctImageIds, renderingEngine])
 
     useEffect(() => {
         if (activeTool) {
@@ -75,7 +76,6 @@ const Viewer = () => {
         coronalCanvasWrapRef,
         threeDCanvasWrapRef,
         ctImageIds,
-    
     })
 
     return (
@@ -106,7 +106,11 @@ const Viewer = () => {
                     </button>
 
                     <button
-                        onClick={() => setActiveTool(PlanarFreehandContourSegmentationTool.toolName)}
+                        onClick={() =>
+                            setActiveTool(
+                                PlanarFreehandContourSegmentationTool.toolName
+                            )
+                        }
                     >
                         Segmentation Planar Freehand Contour Tool
                     </button>
@@ -117,9 +121,7 @@ const Viewer = () => {
                         Window Level Tool
                     </button>
 
-                    <button
-                        onClick={() => setActiveTool(BrushTool.toolName)}
-                    >
+                    <button onClick={() => setActiveTool(BrushTool.toolName)}>
                         Brush tool
                     </button>
                 </div>
