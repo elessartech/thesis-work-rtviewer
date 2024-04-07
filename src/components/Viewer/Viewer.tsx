@@ -209,7 +209,7 @@ const Viewer = () => {
                     border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
-                    bg={'#000'}
+                    bg={theme.colors.customDark}
                 ></Box>
                 <Box
                     className="viewportElement"
@@ -219,7 +219,7 @@ const Viewer = () => {
                     border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
-                    bg={'#000'}
+                    bg={theme.colors.customDark}
                 ></Box>
             </HStack>
             <HStack spacing="4">
@@ -231,7 +231,7 @@ const Viewer = () => {
                     border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
-                    bg={'#000'}
+                    bg={theme.colors.customDark}
                 ></Box>
                 <Box
                     className="viewportElement"
@@ -241,7 +241,7 @@ const Viewer = () => {
                     border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
-                    bg={'#000'}
+                    bg={theme.colors.customDark}
                 ></Box>
             </HStack>
         </VStack>
