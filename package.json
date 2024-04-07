@@ -12,16 +12,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@cornerstonejs/calculate-suv": "^1.1.0",
     "@cornerstonejs/core": "^1.66.2",
     "@cornerstonejs/dicom-image-loader": "^1.66.2",
     "@cornerstonejs/streaming-image-volume-loader": "^1.66.2",
     "@cornerstonejs/tools": "^1.66.2",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "dcmjs": "^0.30.3",
     "dicom-parser": "^1.8.21",
     "dicomweb-client": "^0.10.4",
+    "framer-motion": "^11.0.25",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

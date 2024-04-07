@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { RenderingEngine } from '@cornerstonejs/core'
 import { IRenderingEngine } from '@cornerstonejs/core/dist/esm/types'
 import { fetchImageIds } from '../../helpers/fetchImageIds'
+import { FaAdjust, FaAngleDown, FaRegCircle } from 'react-icons/fa'
 import {
     renderingEngineId,
     toolGroupId,
@@ -11,6 +12,12 @@ import {
 import * as cornerstoneTools from '@cornerstonejs/tools'
 import { CrosshairsTool } from '@cornerstonejs/tools'
 import useSetUpViewports from '../../hooks/useSetUpViewports'
+import { Box, Button, HStack, VStack } from '@chakra-ui/react'
+import { TbRulerMeasure } from 'react-icons/tb'
+import { MdOutlineRectangle } from 'react-icons/md'
+import { PiLineSegmentsBold } from 'react-icons/pi'
+import { FaLocationCrosshairs } from 'react-icons/fa6'
+import { IoIosBrush } from 'react-icons/io'
 
 const {
     ToolGroupManager,
@@ -47,7 +54,7 @@ const Viewer = () => {
         } else {
             if (!renderingEngine) {
                 setRenderingEngine(new RenderingEngine(renderingEngineId))
-                // @ts-expect-error - ToolGroupManager is not typed
+                // @ts-expect-error - Synchronizer is badly typed
                 setSyncronizer(createSlabThicknessSynchronizer(synchronizerId))
                 ToolGroupManager.createToolGroup(toolGroupId)
                 ToolGroupManager.createToolGroup(toolGroupId2)
@@ -79,103 +86,94 @@ const Viewer = () => {
     })
 
     return (
-        <div className="wrapper">
-            <div className="container">
-                <div className="tool-container">
-                    <button onClick={() => setActiveTool(AngleTool.toolName)}>
-                        Angle
-                    </button>
-                    <button onClick={() => setActiveTool(LengthTool.toolName)}>
-                        Length
-                    </button>
-                    <button
-                        onClick={() => setActiveTool(CircleROITool.toolName)}
-                    >
-                        Circle
-                    </button>
-                    <button
-                        onClick={() => setActiveTool(RectangleROITool.toolName)}
-                    >
-                        Rectangle
-                    </button>
-
-                    <button
-                        onClick={() => setActiveTool(CrosshairsTool.toolName)}
-                    >
-                        Crosshair
-                    </button>
-
-                    <button
-                        onClick={() =>
-                            setActiveTool(
-                                PlanarFreehandContourSegmentationTool.toolName
-                            )
-                        }
-                    >
-                        Segmentation Planar Freehand Contour Tool
-                    </button>
-
-                    <button
-                        onClick={() => setActiveTool(WindowLevelTool.toolName)}
-                    >
-                        Window Level Tool
-                    </button>
-
-                    <button onClick={() => setActiveTool(BrushTool.toolName)}>
-                        Brush tool
-                    </button>
-                </div>
-            </div>
-            <div
-                className="container"
-                style={{ display: 'flex', flexDirection: 'row' }}
-            >
-                <div
-                    id="viewportElement"
+        <VStack spacing="4" align="center" mb="4" mt="4">
+            <HStack spacing="4">
+                <Button
+                    leftIcon={<FaAngleDown />}
+                    onClick={() => setActiveTool(AngleTool.toolName)}
+                >
+                    Angle
+                </Button>
+                <Button
+                    leftIcon={<TbRulerMeasure />}
+                    onClick={() => setActiveTool(LengthTool.toolName)}
+                >
+                    Length
+                </Button>
+                <Button
+                    leftIcon={<FaRegCircle />}
+                    onClick={() => setActiveTool(CircleROITool.toolName)}
+                >
+                    Circle
+                </Button>
+                <Button
+                    leftIcon={<MdOutlineRectangle />}
+                    onClick={() => setActiveTool(RectangleROITool.toolName)}
+                >
+                    Rectangle
+                </Button>
+                <Button
+                    leftIcon={<FaLocationCrosshairs />}
+                    onClick={() => setActiveTool(CrosshairsTool.toolName)}
+                >
+                    Crosshair
+                </Button>
+                <Button
+                    leftIcon={<PiLineSegmentsBold />}
+                    onClick={() =>
+                        setActiveTool(
+                            PlanarFreehandContourSegmentationTool.toolName
+                        )
+                    }
+                >
+                    Segmentation
+                </Button>
+                <Button
+                    leftIcon={<FaAdjust />}
+                    onClick={() => setActiveTool(WindowLevelTool.toolName)}
+                >
+                    Window Level
+                </Button>
+                <Button
+                    leftIcon={<IoIosBrush />}
+                    onClick={() => setActiveTool(BrushTool.toolName)}
+                >
+                    Brush
+                </Button>
+            </HStack>
+            <HStack spacing="4">
+                <Box
                     className="viewportElement"
                     ref={axialCanvasWrapRef}
-                    style={{
-                        width: '512px',
-                        height: '512px',
-                        margin: 'auto 1em',
-                    }}
+                    w="480px"
+                    h="480px"
                     onContextMenu={(e) => e.preventDefault()}
-                ></div>
-                <div
-                    id="viewportElement"
+                ></Box>
+                <Box
                     className="viewportElement"
                     ref={sagitalCanvasWrapRef}
-                    style={{
-                        width: '512px',
-                        height: '512px',
-                        margin: 'auto 1em',
-                    }}
+                    w="480px"
+                    h="480px"
                     onContextMenu={(e) => e.preventDefault()}
-                ></div>
-                <div
-                    id="viewportElement"
+                ></Box>
+            </HStack>
+            <HStack spacing="4">
+                <Box
                     className="viewportElement"
                     ref={coronalCanvasWrapRef}
-                    style={{
-                        width: '512px',
-                        height: '512px',
-                        margin: 'auto 1em',
-                    }}
+                    w="480px"
+                    h="480px"
                     onContextMenu={(e) => e.preventDefault()}
-                ></div>
-                <div
-                    id="viewportElement"
+                ></Box>
+                <Box
                     className="viewportElement"
                     ref={threeDCanvasWrapRef}
-                    style={{
-                        width: '512px',
-                        height: '512px',
-                        margin: 'auto 1em',
-                    }}
+                    w="480px"
+                    h="480px"
                     onContextMenu={(e) => e.preventDefault()}
-                ></div>
-            </div>
-        </div>
+                ></Box>
+            </HStack>
+        </VStack>
     )
 }
 
