@@ -42,6 +42,7 @@ export default function useSetUpViewports({
     coronalCanvasWrapRef,
     threeDCanvasWrapRef,
     ctImageIds,
+    setActiveTool,
 }) {
     const viewportReferenceLineControllable = [
         axialViewportId,
@@ -208,6 +209,7 @@ export default function useSetUpViewports({
             coronalViewportId,
             viewportId3,
         ])
+        setActiveTool(CrosshairsTool.toolName)
     }
 
     const setUpSynchronizers = () => {

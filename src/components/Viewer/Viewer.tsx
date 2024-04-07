@@ -83,6 +83,7 @@ const Viewer = () => {
         coronalCanvasWrapRef,
         threeDCanvasWrapRef,
         ctImageIds,
+        setActiveTool,
     })
 
     return (
@@ -91,30 +92,65 @@ const Viewer = () => {
                 <Button
                     leftIcon={<FaAngleDown />}
                     onClick={() => setActiveTool(AngleTool.toolName)}
+                    bg={
+                        activeTool === AngleTool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Angle
                 </Button>
                 <Button
                     leftIcon={<TbRulerMeasure />}
                     onClick={() => setActiveTool(LengthTool.toolName)}
+                    bg={
+                        activeTool === LengthTool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Length
                 </Button>
                 <Button
                     leftIcon={<FaRegCircle />}
                     onClick={() => setActiveTool(CircleROITool.toolName)}
+                    bg={
+                        activeTool === CircleROITool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Circle
                 </Button>
                 <Button
                     leftIcon={<MdOutlineRectangle />}
                     onClick={() => setActiveTool(RectangleROITool.toolName)}
+                    bg={
+                        activeTool === RectangleROITool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Rectangle
                 </Button>
                 <Button
                     leftIcon={<FaLocationCrosshairs />}
                     onClick={() => setActiveTool(CrosshairsTool.toolName)}
+                    bg={
+                        activeTool === CrosshairsTool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Crosshair
                 </Button>
@@ -125,18 +161,40 @@ const Viewer = () => {
                             PlanarFreehandContourSegmentationTool.toolName
                         )
                     }
+                    bg={
+                        activeTool ===
+                        PlanarFreehandContourSegmentationTool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Segmentation
                 </Button>
                 <Button
                     leftIcon={<FaAdjust />}
                     onClick={() => setActiveTool(WindowLevelTool.toolName)}
+                    bg={
+                        activeTool === WindowLevelTool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Window Level
                 </Button>
                 <Button
                     leftIcon={<IoIosBrush />}
                     onClick={() => setActiveTool(BrushTool.toolName)}
+                    bg={
+                        activeTool === BrushTool.toolName
+                            ? '#1b7d42'
+                            : '#7d1b56'
+                    }
+                    color="#fff"
+                    _hover={{ bg: '#1b7d42' }}
                 >
                     Brush
                 </Button>
@@ -147,14 +205,20 @@ const Viewer = () => {
                     ref={axialCanvasWrapRef}
                     w="480px"
                     h="480px"
+                    border="3px solid #7d1b56"
+                    padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
+                    bg={'#000'}
                 ></Box>
                 <Box
                     className="viewportElement"
                     ref={sagitalCanvasWrapRef}
                     w="480px"
                     h="480px"
+                    border="3px solid #7d1b56"
+                    padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
+                    bg={'#000'}
                 ></Box>
             </HStack>
             <HStack spacing="4">
@@ -163,14 +227,20 @@ const Viewer = () => {
                     ref={coronalCanvasWrapRef}
                     w="480px"
                     h="480px"
+                    border="3px solid #7d1b56"
+                    padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
+                    bg={'#000'}
                 ></Box>
                 <Box
                     className="viewportElement"
                     ref={threeDCanvasWrapRef}
                     w="480px"
                     h="480px"
+                    border="3px solid #7d1b56"
+                    padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
+                    bg={'#000'}
                 ></Box>
             </HStack>
         </VStack>
