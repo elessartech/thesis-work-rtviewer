@@ -8,6 +8,11 @@ const theme = extendTheme({
             },
         },
     },
+    colors: {
+        customGreen: '#1b7d42',
+        customPurple: '#7d1b56',
+        customWhite: '#f5f5f5',
+    },
 })
 
 export default theme

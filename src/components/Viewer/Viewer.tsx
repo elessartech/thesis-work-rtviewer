@@ -12,7 +12,7 @@ import {
 import * as cornerstoneTools from '@cornerstonejs/tools'
 import { CrosshairsTool } from '@cornerstonejs/tools'
 import useSetUpViewports from '../../hooks/useSetUpViewports'
-import { Box, Button, HStack, VStack } from '@chakra-ui/react'
+import { Box, Button, HStack, useTheme, VStack } from '@chakra-ui/react'
 import { TbRulerMeasure } from 'react-icons/tb'
 import { MdOutlineRectangle } from 'react-icons/md'
 import { PiLineSegmentsBold } from 'react-icons/pi'
@@ -36,6 +36,7 @@ const {
 const { createSlabThicknessSynchronizer } = synchronizers
 
 const Viewer = () => {
+    const theme = useTheme()
     const threeDCanvasWrapRef = useRef<HTMLDivElement | null>(null)
     const sagitalCanvasWrapRef = useRef<HTMLDivElement | null>(null)
     const coronalCanvasWrapRef = useRef<HTMLDivElement | null>(null)
@@ -94,11 +95,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(AngleTool.toolName)}
                     bg={
                         activeTool === AngleTool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Angle
                 </Button>
@@ -107,11 +108,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(LengthTool.toolName)}
                     bg={
                         activeTool === LengthTool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Length
                 </Button>
@@ -120,11 +121,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(CircleROITool.toolName)}
                     bg={
                         activeTool === CircleROITool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Circle
                 </Button>
@@ -133,11 +134,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(RectangleROITool.toolName)}
                     bg={
                         activeTool === RectangleROITool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Rectangle
                 </Button>
@@ -146,11 +147,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(CrosshairsTool.toolName)}
                     bg={
                         activeTool === CrosshairsTool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Crosshair
                 </Button>
@@ -164,11 +165,11 @@ const Viewer = () => {
                     bg={
                         activeTool ===
                         PlanarFreehandContourSegmentationTool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Segmentation
                 </Button>
@@ -177,11 +178,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(WindowLevelTool.toolName)}
                     bg={
                         activeTool === WindowLevelTool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Window Level
                 </Button>
@@ -190,11 +191,11 @@ const Viewer = () => {
                     onClick={() => setActiveTool(BrushTool.toolName)}
                     bg={
                         activeTool === BrushTool.toolName
-                            ? '#1b7d42'
-                            : '#7d1b56'
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple
                     }
-                    color="#fff"
-                    _hover={{ bg: '#1b7d42' }}
+                    color={theme.colors.customWhite}
+                    _hover={{ bg: theme.colors.customGreen }}
                 >
                     Brush
                 </Button>
@@ -205,7 +206,7 @@ const Viewer = () => {
                     ref={axialCanvasWrapRef}
                     w="480px"
                     h="480px"
-                    border="3px solid #7d1b56"
+                    border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
                     bg={'#000'}
@@ -215,7 +216,7 @@ const Viewer = () => {
                     ref={sagitalCanvasWrapRef}
                     w="480px"
                     h="480px"
-                    border="3px solid #7d1b56"
+                    border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
                     bg={'#000'}
@@ -227,7 +228,7 @@ const Viewer = () => {
                     ref={coronalCanvasWrapRef}
                     w="480px"
                     h="480px"
-                    border="3px solid #7d1b56"
+                    border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
                     bg={'#000'}
@@ -237,7 +238,7 @@ const Viewer = () => {
                     ref={threeDCanvasWrapRef}
                     w="480px"
                     h="480px"
-                    border="3px solid #7d1b56"
+                    border={`3px solid ${theme.colors.customPurple}`}
                     padding="5px"
                     onContextMenu={(e) => e.preventDefault()}
                     bg={'#000'}
