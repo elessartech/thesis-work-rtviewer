@@ -1,4 +1,4 @@
-import createImageIdsAndCacheMetaData from '../metadata/createImageIdsAndCacheMetaData'
+import createImageIdsAndCacheMetaData from '../domain/createImageIdsAndCacheMetaData'
 const fetchImageIds = async () => {
     const wadoRsRoot = 'https://d3t6nz73ql33tx.cloudfront.net/dicomweb'
     const StudyInstanceUID =

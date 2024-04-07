@@ -16,4 +16,9 @@ export const cameraSynchronizerId = 'CAMERA_SYNCHRONIZER_ID'
 export const voiSynchronizerId = 'VOI_SYNCHRONIZER_ID'
 export const stackImageSyncronizerId = 'SYNC_ID'
 export const segmentationId2 = 'MY_SEGMENTATION_ID_2'
-export const synchronizerId = 'MY_SYNCHRONIZER_ID'
+export const synchronizerId = 'MY_SYNCHRONIZER_ID' 
+export const viewportColors = {
+    [axialViewportId]: 'rgb(200, 0, 0)',
+    [sagitalViewportId]: 'rgb(200, 200, 0)',
+    [coronalViewportId]: 'rgb(0, 200, 0)',
+};

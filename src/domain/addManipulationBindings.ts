@@ -6,6 +6,12 @@ import {
     EllipticalROITool,
     ProbeTool,
     RectangleROITool,
+    PlanarFreehandContourSegmentationTool,
+    SegmentationDisplayTool,
+    SegmentSelectTool,
+    CrosshairsTool,
+    WindowLevelTool,
+    BrushTool,
     type Types,
 } from '@cornerstonejs/tools'
 
@@ -68,6 +74,12 @@ export default function addManipulationBindings(
         cornerstoneTools.addTool(BidirectionalTool)
         cornerstoneTools.addTool(RectangleROITool)
         cornerstoneTools.addTool(EllipticalROITool)
+        cornerstoneTools.addTool(PlanarFreehandContourSegmentationTool)
+        cornerstoneTools.addTool(SegmentationDisplayTool)
+        cornerstoneTools.addTool(SegmentSelectTool)
+        cornerstoneTools.addTool(CrosshairsTool);
+        cornerstoneTools.addTool(WindowLevelTool);
+        cornerstoneTools.addTool(BrushTool);
     }
 
     registered = true
@@ -86,17 +98,6 @@ export default function addManipulationBindings(
     toolGroup.addTool(CircleROITool.toolName)
     toolGroup.addTool(RectangleROITool.toolName)
 
-    toolGroup.setToolActive(PanTool.toolName, {
-        bindings: [
-            {
-                mouseButton: MouseBindings.Auxiliary,
-            },
-            {
-                numTouchPoints: 1,
-                modifierKey: KeyboardBindings.Ctrl,
-            },
-        ],
-    })
     toolGroup.setToolActive(ZoomTool.toolName, {
         bindings: zoomBindings,
     })
@@ -125,6 +126,28 @@ export default function addManipulationBindings(
             {
                 numTouchPoints: 1,
                 modifierKey: KeyboardBindings.ShiftCtrl,
+            },
+        ],
+    })
+
+    toolGroup.addTool(SegmentationDisplayTool.toolName)
+    toolGroup.addTool(SegmentSelectTool.toolName)
+
+    toolGroup.setToolEnabled(SegmentationDisplayTool.toolName)
+    toolGroup.setToolActive(SegmentSelectTool.toolName)
+
+    toolGroup.setToolActive(WindowLevelTool.toolName, {
+        bindings: [
+            {
+                mouseButton: csToolsEnums.MouseBindings.Primary, // Left Click
+                modifierKey: csToolsEnums.KeyboardBindings.Ctrl,
+            },
+        ],
+    })
+    toolGroup.setToolActive(PanTool.toolName, {
+        bindings: [
+            {
+                mouseButton: csToolsEnums.MouseBindings.Auxiliary, // Middle Click
             },
         ],
     })
