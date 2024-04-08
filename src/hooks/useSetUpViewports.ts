@@ -54,7 +54,7 @@ export default function useSetUpViewports({
 
     useEffect(() => {
         if (renderingEngine) {
-            (async () => await setUpViewports())()
+            ;(async () => await setUpViewports())()
         }
     }, [renderingEngine])
 
@@ -220,7 +220,7 @@ export default function useSetUpViewports({
     }
 
     const setUpSynchronizers = () => {
-        [axialViewportId, sagitalViewportId, coronalViewportId].forEach(
+        ;[axialViewportId, sagitalViewportId, coronalViewportId].forEach(
             (viewportId) => {
                 synchronizer.add({
                     renderingEngineId,

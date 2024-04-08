@@ -14,7 +14,7 @@ export default function useInitCornerstone() {
     const [loading, setLoading] = useState(true)
     useEffect(() => {
         if (loading) {
-            (async () => initCornerstone())()
+            ;(async () => initCornerstone())()
         }
     }, [loading])
 

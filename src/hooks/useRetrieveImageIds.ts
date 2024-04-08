@@ -22,9 +22,9 @@ export default function useRetrieveImageIds({
 }) {
     useEffect(() => {
         if (ctImageIds.length === 0) {
-            (async () => setCtImageIds(await fetchCTImageIds()))()
+            ;(async () => setCtImageIds(await fetchCTImageIds()))()
         } else if (ptImageIds.length === 0) {
-            (async () => setPtImageIds(await fetchPTImageIds()))()
+            ;(async () => setPtImageIds(await fetchPTImageIds()))()
         } else {
             if (!renderingEngine) {
                 setRenderingEngine(new RenderingEngine(renderingEngineId))
@@ -33,5 +33,13 @@ export default function useRetrieveImageIds({
                 ToolGroupManager.createToolGroup(toolGroupId2)
             }
         }
-    }, [ctImageIds, ptImageIds, renderingEngine, setRenderingEngine, setCtImageIds, setPtImageIds, setSyncronizer])
+    }, [
+        ctImageIds,
+        ptImageIds,
+        renderingEngine,
+        setRenderingEngine,
+        setCtImageIds,
+        setPtImageIds,
+        setSyncronizer,
+    ])
 }

@@ -77,7 +77,11 @@ const Viewer = () => {
                             : theme.colors.customPurple
                     }
                     color={theme.colors.customWhite}
-                    _hover={{ bg: theme.colors.customGreen }}
+                    _hover={{
+                        bg: !isFused
+                            ? theme.colors.customGreen
+                            : theme.colors.customPurple,
+                    }}
                 >
                     Toggle PET
                 </Button>

@@ -4,6 +4,13 @@ This repository contains the app I developed, along with my thesis work.
 
 ## Installation Instructions
 
+### Preinstallation Instructions
+
+Before proceeding with the installation, ensure that your machine meets the following requirements:
+
+- Node.js: Version 18.0.0 or higher
+- Yarn: Make sure Yarn is installed on your machine. If not, you can install it by following the instructions [here](https://yarnpkg.com/getting-started/install).
+
 1. Clone the app:
 
 ```

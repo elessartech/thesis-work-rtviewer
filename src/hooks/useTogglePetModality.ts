@@ -45,7 +45,7 @@ export default function useTogglePetModality({ renderingEngine, isFused }) {
                         coronalViewportId,
                     ])
                 } else {
-                    (async () =>
+                    ;(async () =>
                         await setVolumesForViewports(
                             renderingEngine,
                             [
