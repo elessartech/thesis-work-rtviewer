@@ -32,7 +32,6 @@ const {
     segmentation,
     WindowLevelTool,
     PlanarFreehandContourSegmentationTool,
-    BrushTool,
 } = cornerstoneTools
 
 export default function useSetUpViewports({
@@ -82,7 +81,6 @@ export default function useSetUpViewports({
         const toolGroup2 = ToolGroupManager.getToolGroup(toolGroupId2)
         toolGroup.addTool(PlanarFreehandContourSegmentationTool.toolName)
         toolGroup.addTool(WindowLevelTool.toolName)
-        toolGroup.addTool(BrushTool.toolName)
 
         addManipulationBindings(toolGroup)
         addManipulationBindings(toolGroup2, { is3DViewport: true })

@@ -9,7 +9,6 @@ import { TbRulerMeasure } from 'react-icons/tb'
 import { MdOutlineRectangle } from 'react-icons/md'
 import { PiLineSegmentsBold } from 'react-icons/pi'
 import { FaLocationCrosshairs } from 'react-icons/fa6'
-import { IoIosBrush } from 'react-icons/io'
 import useTogglePetModality from '../../hooks/useTogglePetModality'
 import useSelectActiveTool from '../../hooks/useSelectActiveTool'
 import useRetrieveImageIds from '../../hooks/useRetrieveImageIds'
@@ -20,7 +19,6 @@ const {
     AngleTool,
     CircleROITool,
     PlanarFreehandContourSegmentationTool,
-    BrushTool,
     Synchronizer,
 } = cornerstoneTools
 
@@ -180,19 +178,6 @@ const Viewer = () => {
                     _hover={{ bg: theme.colors.customGreen }}
                 >
                     Window Level
-                </Button>
-                <Button
-                    leftIcon={<IoIosBrush />}
-                    onClick={() => setActiveTool(BrushTool.toolName)}
-                    bg={
-                        activeTool === BrushTool.toolName
-                            ? theme.colors.customGreen
-                            : theme.colors.customPurple
-                    }
-                    color={theme.colors.customWhite}
-                    _hover={{ bg: theme.colors.customGreen }}
-                >
-                    Brush
                 </Button>
             </HStack>
             <HStack spacing="4">

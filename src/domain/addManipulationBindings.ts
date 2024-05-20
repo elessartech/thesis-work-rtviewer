@@ -11,7 +11,6 @@ import {
     SegmentSelectTool,
     CrosshairsTool,
     WindowLevelTool,
-    BrushTool,
     type Types,
 } from '@cornerstonejs/tools'
 
@@ -79,7 +78,6 @@ export default function addManipulationBindings(
         cornerstoneTools.addTool(SegmentSelectTool)
         cornerstoneTools.addTool(CrosshairsTool)
         cornerstoneTools.addTool(WindowLevelTool)
-        cornerstoneTools.addTool(BrushTool)
     }
 
     registered = true
@@ -97,6 +95,7 @@ export default function addManipulationBindings(
     toolGroup.addTool(AngleTool.toolName)
     toolGroup.addTool(CircleROITool.toolName)
     toolGroup.addTool(RectangleROITool.toolName)
+    toolGroup.addTool(WindowLevelTool.toolName)
 
     toolGroup.setToolActive(ZoomTool.toolName, {
         bindings: zoomBindings,
